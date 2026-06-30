@@ -14,8 +14,43 @@ print("10 ** 4 = ", 10 ** 4) # 幂指数, 10的4次方 - 10000
 #print(f"x - y = {int(x)-int(y)}")
 
 #计算输入的三个整数的平均数
-a = int(input("请输入a的值："))
-b = int(input("请输入b的值："))
-c = int(input("请输入c的值："))
-average = (a+b+c)/3
-print(f"这三个数的平均值为：{average}")
+# a = int(input("请输入a的值："))
+# b = int(input("请输入b的值："))
+# c = int(input("请输入c的值："))
+# average = (a+b+c)/3
+# print(f"这三个数的平均值为：{average}")
+
+num = 85
+
+num +=10
+print(f"num += 10后的值为{num}")
+
+num -=10
+print(f"num -= 10后的值为{num}")
+
+num *=10
+print(f"num *= 10后的值为{num}")
+
+num /=10
+print(f"num /= 10后的值为{num}")
+
+num //=10
+print(f"num //= 10后的值为{num}")
+
+num %=3
+print(f"num %= 10后的值为{num}")
+
+num **=3
+print(f"num **= 10后的值为{num}")
+
+print("100 == 100吗？", 100 == 100)
+print("100 != 100吗？", 100 != 100)
+print("100 < 100吗？", 100 < 100)
+print("100 > 100吗？", 100 > 100)
+print("100 >= 100吗？", 100 >= 100)
+print("100 <= 100吗？", 100 <= 100)
+
+a = int(input("请输入一个数字："))
+print(f"{a}在10-20之间：", 10 <= a <= 20)
+print(f"{a}在10-20之间：", a <= 10 or a >= 20)
+
