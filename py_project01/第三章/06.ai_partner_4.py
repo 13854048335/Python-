@@ -80,7 +80,7 @@ def delete_session(session_id):
 # 大标题
 st.title("AI智能伴侣")
 #Logo
-st.logo("./resources/logo.png")
+#st.logo("./resources/logo.png")
 
 systme_prompt = """
 你叫%s，现在是用户的真实伴侣，请完全代入伴侣角色。
