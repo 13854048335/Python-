@@ -16,6 +16,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     menu_items={}
 )
+# 兼容本地环境变量和云端 Secrets
+def get_api_key():
+    # 优先从 st.secrets 读取
+    try:
+        return st.secrets.get("DEEPSEEK_API_KEY")
+    except:
+        # 如果没有 secrets，从环境变量读取（本地开发用）
+        return os.environ.get('DEEPSEEK_API_KEY')
 # 保存会话信息的函数
 def save_session():
 
@@ -162,7 +170,8 @@ if prompt:  # 字符串自动转换为布尔值，如果字符串非空，则返
     # 调用AI大模型
     # 创建与AI大模型交互的客户端
     client = OpenAI(
-        api_key=os.environ.get('DEEPSEEK_API_KEY'),
+        api_key=get_api_key(),
+        #api_key=os.environ.get('DEEPSEEK_API_KEY'),
         base_url="https://api.deepseek.com")
     # 与AI大模型进行交互
     response = client.chat.completions.create(
