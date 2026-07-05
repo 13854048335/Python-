@@ -50,7 +50,7 @@ def load_session_list():
            if filename.endswith(".json"):
                session_list.append(filename[:-5:1])
        session_list.sort(reverse=True)
-       return session_list
+    return session_list
 # 加载指定会话列表
 def load_session(session_id):
     if os.path.exists(f"sessions/{session_id}.json"):
