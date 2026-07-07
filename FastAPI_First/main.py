@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Path,Query
+from fastapi import FastAPI,Path,Query,HTTPException
 from pydantic import BaseModel,Field
 from fastapi.responses import HTMLResponse,FileResponse
 
@@ -46,6 +46,30 @@ async def get_html():
 async def get_image():
     path = "./files/1.jpeg"
     return FileResponse(path)
+# 自定义返回参数
+# 定义一个返回新闻的接口
+class News(BaseModel):
+    id: int
+    title: str
+    content: str
+@app.get("/news/{id}",response_model=News)
+async def get_news(id: int):
+    return {
+        "id":id,
+        "title":f"新闻{id}的标题",
+        "content":f"新闻{id}的内容"
+    }
+# 异常处理
+@app.get("/cars/{id}")
+async def get_car(id:int):
+    id_list = [1,2,3,4,5,6]
+    if not id in id_list:
+       raise HTTPException(status_code=404,detail="您查找的信息不存在")
+    return {"id":id,"msg":"查询成功"}
+
+
+
+
 
 
 
