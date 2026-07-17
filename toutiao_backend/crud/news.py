@@ -1,10 +1,12 @@
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import update
-from cache.news_cache import get_cache_categories, set_cache_categories, get_cache_news_list, set_cache_news_list
+from cache.news_cache import get_cache_categories, set_cache_categories, get_cache_news_list, set_cache_news_list, \
+    get_cache_news_detail, set_cache_news_detail
 from models.news import Category, News
 from sqlalchemy import select, func
 from schemas.base import NewsItemBase
+from schemas.news import NewsDetailResponse
 
 
 # 获取新闻分类
@@ -46,9 +48,18 @@ async def get_news_count(db: AsyncSession, category_id: int):
 
 # 按id查询新闻
 async def get_news_detail(db: AsyncSession, id: int):
+    cache_data = await get_cache_news_detail(id)
+    if cache_data:
+        return News(**cache_data)
     stmt = select(News).where(News.id == id)
     result = await db.execute(stmt)
-    return result.scalar_one_or_none()
+    news =  result.scalar_one_or_none()
+    # 写入缓存
+    if news:
+        news_dict = NewsDetailResponse.model_validate(news).model_dump(
+            by_alias=False, mode="json", exclude={'related_news'})
+        await set_cache_news_detail(id, news_dict)
+    return news
 
 # 增加浏览量
 async def increase_news_view(db: AsyncSession, id: int):
